@@ -1,0 +1,17 @@
+SALDO+ — COMO USAR
+1. Abra index.html em um navegador moderno para testar.
+2. Cadastre os gastos e marque cada conta como paga quando quitar.
+3. Na aba Contracheque, informe salário, dias considerados e descontos aplicáveis.
+4. O valor líquido estimado é usado automaticamente no resumo da área Gastos.
+5. Seus dados ficam salvos localmente no navegador deste aparelho.
+
+INSTALAÇÃO COMO APLICATIVO (PWA)
+Para instalar de forma confiável no celular/computador, hospede os arquivos em um endereço HTTPS (por exemplo, GitHub Pages ou outro host estático). Abra o endereço no navegador e escolha "Instalar app" ou "Adicionar à tela inicial", conforme o dispositivo. Service workers não funcionam em todos os casos quando o arquivo é aberto diretamente por file://.
+
+IMPORTANTE
+- A tabela do INSS está configurada com as faixas progressivas oficiais de 2026. Atualize as faixas quando a tabela oficial mudar.
+- Estimativa de salário: não calcula IRRF, dependentes, pensão, múltiplos vínculos, regras de férias/13º nem todos os casos específicos de folha.
+- Vale-transporte é limitado no simulador a 6% do salário proporcional informado; regras específicas podem variar conforme a legislação aplicável.
+- O desconto de VR/VA segue a regra informada no pedido (10% para 160/180h; 20% para 200/220h). Confirme o acordo coletivo/política da empresa.
+- O app não se conecta ao banco nem à folha da empresa. "Puxar automaticamente" significa que o salário líquido calculado no contracheque aparece no resumo de gastos.
+- Os dados são armazenados no navegador do dispositivo. Não limpe os dados do site sem exportar/anotar suas informações.

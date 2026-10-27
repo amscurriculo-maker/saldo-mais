@@ -1,0 +1,10 @@
+{
+  "name": "Saldo+ | Controle financeiro",
+  "short_name": "Saldo+",
+  "description": "Controle de gastos e estimativa de contracheque",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#172554",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
