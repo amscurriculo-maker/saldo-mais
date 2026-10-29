@@ -1,5 +1,5 @@
 
-const CACHE = 'saldo-plus-v3';
+const CACHE = 'saldo-plus-v4';
 
 const FILES = [
   './',
@@ -12,8 +12,10 @@ const FILES = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES))
+    caches.open(CACHE)
+      .then(cache => cache.addAll(FILES))
   );
+
   self.skipWaiting();
 });
 
@@ -22,30 +24,66 @@ self.addEventListener('activate', event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE)
+          .filter(key => key.startsWith('saldo-plus-') && key !== CACHE)
           .map(key => caches.delete(key))
       )
     )
   );
+
   self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+  const request = event.request;
 
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+
+  if (url.origin !== self.location.origin) return;
+
+  // Sempre tenta buscar a página atualizada no servidor.
+  if (
+    request.mode === 'navigate' ||
+    url.pathname.endsWith('/index.html')
+  ) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+
+            caches.open(CACHE).then(cache =>
+              cache.put(request, copy)
+            );
+          }
+
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then(cached =>
+            cached || caches.match('./index.html')
+          )
+        )
+    );
+
+    return;
+  }
+
+  // Para os demais arquivos, usa o cache e recorre à rede se necessário.
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    caches.match(request).then(cached => {
       if (cached) return cached;
 
-      return fetch(event.request).then(response => {
+      return fetch(request).then(response => {
         if (response && response.ok) {
-          const copy = response.clone();
           caches.open(CACHE).then(cache =>
-            cache.put(event.request, copy)
+            cache.put(request, response.clone())
           );
         }
+
         return response;
-      }).catch(() => caches.match('./index.html'));
+      });
     })
   );
 });
