@@ -1,5 +1,5 @@
 
-const CACHE = 'saldo-plus-v2';
+const CACHE = 'saldo-plus-v3';
 
 const FILES = [
   './',
